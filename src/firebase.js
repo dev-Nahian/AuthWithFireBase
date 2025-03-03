@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,6 +18,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const googleAuthProvider = new GoogleAuthProvider()
 
 const registerWithEmailAndPassword = async (email, password) => {
   try {
@@ -48,4 +49,15 @@ const sendPasswordReset = async (email) => {
   }
 }
 
-export { registerWithEmailAndPassword, loginWithEmailAndPassword, auth, sendPasswordReset };
+
+const signInWithGoogle = async () => {
+  try {
+    const res = await signInWithPopup(auth, googleAuthProvider)
+    const user = res.user
+    return user
+  } catch (error) {
+    throw(error)
+  }
+}
+
+export { registerWithEmailAndPassword, loginWithEmailAndPassword, auth, sendPasswordReset, signInWithGoogle };

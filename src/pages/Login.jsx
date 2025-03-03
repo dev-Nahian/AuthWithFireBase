@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { loginWithEmailAndPassword } from "../firebase";
 import { NavLink, useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "../firebase";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,6 +20,16 @@ const Login = () => {
         console.log(error);
     }
   };
+
+
+  const handleSocialLogin = async () => {
+    const user = await signInWithGoogle();
+    console.log(user);
+    navigate("/home")
+    
+  }
+
+
 
   return (
     <div className="flex flex-col p-4 justify-center items-center">
@@ -46,13 +58,23 @@ const Login = () => {
             className="mx-2 my-2 p-1 border border-gray-100 rounded-sm"
           />
         </div>
-        <button
-          className="bg-black text-white py-1 px-2 rounded-md m-auto capitalize"
-          type="submit"
-          onClick={handleLogin}
-        >
-          Log In
-        </button>
+        <div>
+          <button
+            className="bg-black text-white py-1 px-2 rounded-md m-auto capitalize"
+            type="submit"
+            onClick={handleLogin}
+          >
+            Log In
+          </button>
+
+          <button
+            className="bg-orange-400 text-white py-1 px-2 rounded-md m-2 capitalize"
+            type="submit"
+            onClick={handleSocialLogin}
+          >
+            Log In With Google
+          </button>
+        </div>
       </form>
       <p className="my-2">
         No Account?
